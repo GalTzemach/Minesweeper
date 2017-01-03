@@ -1,9 +1,6 @@
 package com.example.galtzemach.minesweeper.logic;
 
-import android.content.Context;
 import android.widget.ImageButton;
-
-import java.sql.Time;
 
 /**
  * Created by Gal Tzemach on 27/11/2016.
@@ -11,62 +8,48 @@ import java.sql.Time;
 
 public class GameLogic {
 
-    //private int level;
-    public GameBoard gameBoard;///private?
-    private Time time;
+    public GameBoard gameBoard; ///private?
     private int flagsLeft;
-    private int tileTakenCounter;
     private ImageButton face;
-    private int mode;
     private  boolean isWon = false;
     private boolean isLoss = false;
 
+    ///private int mode;
+    ///private Time time;
+    ///private int tileTakenCounter;
 
-    public GameLogic(Context context, GameBoard gameBoard) {///remove context?
+    public GameLogic(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
         this.flagsLeft = gameBoard.getNumberOfMines();
-       // gameBoard.createBoard(); /// in GameBoard
     }
 
     public boolean isWon() {
-        return isWon;
+        return this.isWon;
     }
 
     public void setWon(boolean won) {
-        isWon = won;
+        this.isWon = won;
     }
 
-    public boolean isLoss() {
-        return isLoss;
-    }
+//    public boolean isLoss() {
+//        return isLoss;
+//    }
 
     public void setLoss(boolean loss) {
-        isLoss = loss;
+        this.isLoss = loss;
     }
 
-    public void onClick(){
-
-    }
-
-    public void onPress(){
-
-    }
-
-    public void isMine(){
-
-    }
-
-    public ImageButton getFace() {
-        return face;
-    }
+//    public ImageButton getFace() {
+//        return face;
+//    }
 
     public int getFlagsLeft() {
-        return flagsLeft;
+        return this.flagsLeft;
     }
 
-    public void setFace(ImageButton face) {
-        this.face = face;
-    }
+//    public void setFace(ImageButton face) {
+//        this.face = face;
+//    }
 
     public void setFlagsLeft(int flagsLeft) {
         this.flagsLeft = flagsLeft;
@@ -77,4 +60,5 @@ public class GameLogic {
             return  true;
         return  false;
     }
+
 }

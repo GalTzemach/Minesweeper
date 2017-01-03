@@ -3,9 +3,7 @@ package com.example.galtzemach.minesweeper.logic;
 import android.content.Context;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-
 import com.example.galtzemach.minesweeper.R;
-
 import static android.widget.ImageView.ScaleType.FIT_CENTER;
 
 /**
@@ -17,18 +15,18 @@ public class Tile extends ImageButton {
     private int positionRow;
     private int positionCol;
     private int value;
-    private boolean isFlaged = false;
+    private boolean isFlagged = false;
     private boolean isTaken = false;
     private boolean isX = false;
-    private Context context;
+    //private Context context;
 
-    public Tile(Context context,int positionRow, int positionCol, int value, boolean isFlaged, boolean isTaken) {
+    public Tile(Context context, int positionRow, int positionCol, int value, boolean isFlagged, boolean isTaken) {
         super(context);
-        this.context = context;
+        //this.context = context;
         this.positionRow = positionRow;
         this.positionCol = positionCol;
         this.value = value;
-        this.isFlaged = isFlaged;
+        this.isFlagged = isFlagged;
         this.isTaken = isTaken;
         setLayoutParams(new LinearLayout.LayoutParams(99, 99));
         setImageResource(R.drawable.close);
@@ -38,15 +36,15 @@ public class Tile extends ImageButton {
     }
 
     public void setTaken(boolean taken) {
-        isTaken = taken;
+        this.isTaken = taken;
     }
 
-    public void setFlaged(boolean flaged) {
-        isFlaged = flaged;
+    public void setFlagged(boolean flagged) {
+        this.isFlagged = flagged;
     }
 
     public int getValue() {
-        return value;
+        return this.value;
     }
 
     public void setValue(int value) {
@@ -58,8 +56,7 @@ public class Tile extends ImageButton {
     }
 
     public void showImage() {
-
-        if (isFlaged() == false) {
+        if (isFlagged() == false) {
             switch (getValue()) { // check tile value
                 case -1: // is mine
                     setImageResource(R.drawable.mine_bomb_200x200);
@@ -94,7 +91,7 @@ public class Tile extends ImageButton {
                     setImageResource(R.drawable.number8_200x200);
                     break;
             }
-        }else if (isFlaged() == true)
+        } else if (isFlagged() == true)
             setImageResource(R.drawable.flag_200x200);
 
         setAdjustViewBounds(true);
@@ -103,37 +100,38 @@ public class Tile extends ImageButton {
     }
 
     public int getPositionRow() {
-        return positionRow;
+        return this.positionRow;
     }
 
     public int getPositionCol() {
-        return positionCol;
+        return this.positionCol;
     }
 
-    public boolean isFlaged() {
-        return isFlaged;
+    public boolean isFlagged() {
+        return this.isFlagged;
     }
 
     public boolean isTaken() {
-        return isTaken;
+        return this.isTaken;
     }
 
-    public boolean isX() {
-        return isX;
-    }
+//    public boolean isX() {
+//        return this.isX;
+//    }
 
-    public boolean longClicked(){
-        if (isTaken == false) {
-            isFlaged = true;
-            isTaken = true;
-//            setImageResource(R.drawable.flag_200x200);
-//            setAdjustViewBounds(true);
-//            setScaleType(FIT_CENTER);
-//            setPadding(5,5,5,5);
-            showImage();
-            return true;
-        } else if (isFlaged == true)
-            isFlaged = false;
-        return false;
-    }
+//    public boolean longClicked(){
+//        if (isTaken == false) {
+//            isFlagged = true;
+//            isTaken = true;
+////            setImageResource(R.drawable.flag_200x200);
+////            setAdjustViewBounds(true);
+////            setScaleType(FIT_CENTER);
+////            setPadding(5,5,5,5);
+//            showImage();
+//            return true;
+//        } else if (isFlagged == true)
+//            isFlagged = false;
+//        return false;
+//    }
+
 }

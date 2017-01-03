@@ -3,7 +3,6 @@ package com.example.galtzemach.minesweeper.ui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,7 +32,6 @@ import static android.widget.Toast.LENGTH_LONG;
 public class GameActivity extends AppCompatActivity {
 
     private GameLogic gameLogic;
-    private Image[] imageArr;
     private ImageButton face;
     private Intent newGameIntent;
     private Handler timer = new Handler();
@@ -46,10 +44,13 @@ public class GameActivity extends AppCompatActivity {
     private int levelNumber; // 0 = Easy, 1 = Medium, 2 = Hard
     private boolean isEnd = false;
 
+    //private Image[] imageArr;
 
-    private static final String TAG = "GameActivity";
+
+    //private static final String TAG = "GameActivity";
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +60,6 @@ public class GameActivity extends AppCompatActivity {
 
         //get level parameters & create game
         int[] arrLevel = getIntent().getIntArrayExtra("level");
-
-        //Log.d(TAG, String.valueOf(levelNumber));
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_game);
         relativeLayout.setGravity(Gravity.CENTER);
@@ -80,7 +79,7 @@ public class GameActivity extends AppCompatActivity {
         int width = display.getWidth();
         int high = display.getHeight();
 
-        gameLogic = new GameLogic(this, new GameBoard(this, width, high,  arrLevel[0],arrLevel[1],arrLevel[2]));
+        gameLogic = new GameLogic(new GameBoard(this, width, high,  arrLevel[0],arrLevel[1],arrLevel[2]));
         levelNumber = arrLevel[3];
 
         face = new ImageButton(this);
@@ -108,14 +107,13 @@ public class GameActivity extends AppCompatActivity {
 
         relativeLayout.addView(verticalLinearLayout);
 
-
-
         //startTimer();///start in first press
     }
 
     public void startTimer() {
         if (secPassed == 0) {
             timer.removeCallbacks(updateTimeElapsed);
+
             // tell timer to run call back after 1 second
             timer.postDelayed(updateTimeElapsed, 1000);
         }
@@ -129,6 +127,7 @@ public class GameActivity extends AppCompatActivity {
 
             // add notification
             timer.postAtTime(this, currentMilliseconds);
+
             // notify to call back after 1 seconds
             // basically to remain in the timer loop
             if (isEnd == false)
@@ -186,9 +185,9 @@ public class GameActivity extends AppCompatActivity {
                             isStart = true;
                             startTimer();
                         }
-                        if (tile.isTaken() == false && tile.isFlaged() == false) {
+                        if (tile.isTaken() == false && tile.isFlagged() == false) {
                             if (gameLogic.canFlag(tile) == true) {
-                                tile.setFlaged(true);
+                                tile.setFlagged(true);
                                 //tile.setTaken(true);
                                 tile.showImage();
                                 gameLogic.setFlagsLeft(gameLogic.getFlagsLeft() - 1);
@@ -201,9 +200,10 @@ public class GameActivity extends AppCompatActivity {
 
 //                        if (tile.longClicked() == true) ;
 //                        gameLogic.setFlagsLeft(gameLogic.getFlagsLeft() - 1);
+
                         } else {
-                            if (tile.isFlaged() == true) {
-                                tile.setFlaged(false);
+                            if (tile.isFlagged() == true) {
+                                tile.setFlagged(false);
                                 //
                                 tile.setTaken(false);//?
                                 //tile.showImage();
@@ -300,48 +300,17 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void savePlayersScores(int i) {
-//        String[] names = new  String[3];
-//        names[0] = "Player1";
-//        names[1] = "Player2";
-//        names[2] = "Player3";
-//
-//        Integer[] scores = new  Integer[3];
-//        scores[0] = 1;
-//        scores[1] = 2;
-//        scores[2] = 3;
-        //if (new record)
+
         String nameToSave = name;
         int timeToSave = secPassed;
 
         SharedPreferences scoresPreferences = getSharedPreferences("scoresss", MODE_PRIVATE);
         SharedPreferences.Editor scoresEditor = scoresPreferences.edit();
 
-        /// check if name is null
-        //for (int i =0; i < 3; i ++) {
             scoresEditor.putString("player" + i + "name", nameToSave);
             scoresEditor.putInt("player" + i + "score", timeToSave);
-        //}
 
         scoresEditor.apply();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 }

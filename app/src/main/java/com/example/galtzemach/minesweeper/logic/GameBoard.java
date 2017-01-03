@@ -1,11 +1,8 @@
 package com.example.galtzemach.minesweeper.logic;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import java.util.Random;
-
-import static android.widget.Toast.LENGTH_LONG;
 
 /**
  * Created by Gal Tzemach on 28/11/2016.
@@ -21,7 +18,6 @@ public class GameBoard {
     private Tile[][] theBoard;
     private Context context;
 
-
     public GameBoard(Context context, int width, int High, int row, int col, int numberOfMines) {
         this.context = context;
         this.row = row;
@@ -32,7 +28,6 @@ public class GameBoard {
         this.theBoard = new Tile[row][col];
         createBoard();
     }
-
 
     public void createBoard() {
 
@@ -63,19 +58,19 @@ public class GameBoard {
     }
 
     public int getRow() {
-        return row;
+        return this.row;
     }
 
     public int getCol() {
-        return col;
+        return this.col;
     }
 
     public int getNumberOfMines() {
-        return numberOfMines;
+        return this.numberOfMines;
     }
 
     public Tile[][] getTheBoard() {
-        return theBoard;
+        return this.theBoard;
     }
 
     public void openAllBlank(Tile tile) {
@@ -98,15 +93,16 @@ public class GameBoard {
         }
     }
 
-    public void gameOver() {
-        Toast.makeText(context, "gameOver", LENGTH_LONG).show();
-        //open all mines
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                    theBoard[i][j].showImage();
-            }
-        }
-    }
+///
+//    public void gameOver() {
+//        Toast.makeText(context, "gameOver", LENGTH_LONG).show();
+//        //open all mines
+//        for (int i = 0; i < row; i++) {
+//            for (int j = 0; j < col; j++) {
+//                    theBoard[i][j].showImage();
+//            }
+//        }
+//    }
 
     public boolean isWin() {
         int countNotTaken = 0, counterMines = 0;
@@ -114,7 +110,7 @@ public class GameBoard {
             for (int j = 0; j < col; j++) {
                 if (theBoard[i][j].isTaken() == false)
                     countNotTaken ++;
-                if (theBoard[i][j].isFlaged() == true && theBoard[i][j].getValue() == -1)
+                if (theBoard[i][j].isFlagged() == true && theBoard[i][j].getValue() == -1)
                     counterMines ++;
             }
         }

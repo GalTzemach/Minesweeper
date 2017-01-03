@@ -7,14 +7,14 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.galtzemach.minesweeper.R;
 
-public class SettingActivity extends AppCompatActivity {
+// public class SettingActivity extends AppCompatActivity implements OnMapReadyCallback
+public class SettingActivity extends AppCompatActivity{
 
-    private boolean isSounde;
-    private boolean isVebration;
-    private boolean isFullScreen;
+    //private boolean isSounde;
+    //private boolean isVebration;
+    //private boolean isFullScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,9 @@ public class SettingActivity extends AppCompatActivity {
         CheckBox fullScreenCheckBox = new CheckBox(this);
         fullScreenCheckBox.setText("Full Screen");
 
+//        MapFragment m1 = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+//        m1.getMapAsync(this);
+
         linearLayout.addView(txtOptional);
         linearLayout.addView(soundCheckBox);
         linearLayout.addView(vibrationCheckBox);
@@ -47,32 +50,24 @@ public class SettingActivity extends AppCompatActivity {
         relativeLayout.addView(linearLayout);
     }
 
-    public SettingActivity() {
-        super();
-    }
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//
+//
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            Log.d(TAG, "onMapReady: ");
+//            return;
+//        }
+//        googleMap.setMyLocationEnabled(true);
+//
+//
+//    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 }

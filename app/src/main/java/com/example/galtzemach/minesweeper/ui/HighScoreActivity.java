@@ -12,18 +12,17 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.galtzemach.minesweeper.R;
 
 public class HighScoreActivity extends AppCompatActivity {
 
     TextView playerName;
     TextView highScore;
-    String[] names; //= new  String[3];
-    Integer[] scores; //= new  Integer[3];
+    String[] names;
+    Integer[] scores;
 
     private static final String TAG = "HighScoreActivity";
-    final int WIDTH_BUTTON = 1000;
+    // final int WIDTH_BUTTON = 1000;
 
 
     @Override
@@ -87,7 +86,6 @@ public class HighScoreActivity extends AppCompatActivity {
         highScore.setTextSize(30);
 
 
-
         buttonLinearHorizontal.addView(btEasy);
         buttonLinearHorizontal.addView(btMedium);
         buttonLinearHorizontal.addView(btHard);
@@ -108,8 +106,6 @@ public class HighScoreActivity extends AppCompatActivity {
             public void onClick(View view) {
                 titleTextView.setText("best result for Easy:");
                 showResults(0);
-                //playerName.setText(names[0]);
-                //highScore.setText(scores[0]);
             }
         });
 
@@ -118,8 +114,6 @@ public class HighScoreActivity extends AppCompatActivity {
             public void onClick(View view) {
                 titleTextView.setText("best result for Medium:");
                 showResults(1);
-                //playerName.setText(names[1]);
-                //highScore.setText(scores[1]);
             }
         });
 
@@ -128,26 +122,12 @@ public class HighScoreActivity extends AppCompatActivity {
             public void onClick(View view) {
                 titleTextView.setText("best result for Hard:");
                 showResults(2);
-                //playerName.setText(names[2]);
-                //highScore.setText(scores[2]);
             }
         });
 
         btEasy.callOnClick();
-        ///loadPlayersScores();
 
     }
-
-//    public void fillArr() {
-//        for (int i = 0; i < names.length; i++) {
-//            names[i] = "tal zemah";
-//            scores[i] = i + 1;
-//        }
-//    }
-
-
-
-
 
     private void showResults(int i) {
         if (names[i] != null && scores[i] != -1) {
@@ -157,9 +137,6 @@ public class HighScoreActivity extends AppCompatActivity {
             playerName.setText("Not exist");
             highScore.setText("000");
         }
-
-
-
     }
 
     public void loadPlayersScores() {
@@ -174,42 +151,12 @@ public class HighScoreActivity extends AppCompatActivity {
             Integer playerScore = scoresPreferences.getInt("player" + i + "score", -1);
 
             if (playerName != null && playerScore != -1) {
-                /// int \ integer ?
                 names[i] = playerName;
                 scores[i] = playerScore;
             }
         }
 
         Log.d(TAG, "loadPlayersScores: loaded the following arrays: " + names+ "\n" + scores); ///
-    }
-
-    public HighScoreActivity() {
-        super();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
 }

@@ -5,12 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.example.galtzemach.minesweeper.R;
 
 public class HelpActivity extends AppCompatActivity {
-
-    //private AlphabeticIndex.Bucket.LabelType label;///
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,32 +52,4 @@ public class HelpActivity extends AppCompatActivity {
         relativeLayout.addView(scrollView);
     }
 
-    public HelpActivity() {
-        super();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
 }
