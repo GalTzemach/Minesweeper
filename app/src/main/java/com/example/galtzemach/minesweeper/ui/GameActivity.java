@@ -73,7 +73,8 @@ public class GameActivity extends AppCompatActivity {
         upHorizontalLinearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         upHorizontalLinearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR); //    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
         upHorizontalLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        upHorizontalLinearLayout.setPadding(0, 0, 0, 200);
+        upHorizontalLinearLayout.setPadding(0, 0, 0, 100);
+        //upHorizontalLinearLayout.setBackgroundColor(Color.GREEN);///
 
         Display display = getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
@@ -103,7 +104,12 @@ public class GameActivity extends AppCompatActivity {
         upHorizontalLinearLayout.addView(timerBt);
 
         verticalLinearLayout.addView(upHorizontalLinearLayout);
-        verticalLinearLayout.addView(createBoard());//createBoard return LinearLayout
+
+        ScrollView scrollView = new ScrollView(this);
+        scrollView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        //scrollView.setBackgroundColor(Color.BLUE);///
+        scrollView.addView(createBoard());
+        verticalLinearLayout.addView(scrollView);//createBoard return LinearLayout
 
         relativeLayout.addView(verticalLinearLayout);
 
@@ -135,9 +141,10 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
-    public ScrollView createBoard(){
+    public LinearLayout createBoard(){
 
-        ScrollView scrollView = new ScrollView(this);
+        //ScrollView scrollView = new ScrollView(this);
+        //scrollView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -153,21 +160,22 @@ public class GameActivity extends AppCompatActivity {
                 tile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        //Start game
                         if (isStart == false){
                             isStart = true;
                             startTimer();
                         }
+
                         if (tile.isTaken() == false) {
                             tile.setTaken(true);
                             tile.showImage();
                             if (tile.getValue() == -1) { //loss
                                 gameOver();
                                 isEnd = true;
-                            }
-
-                            else if (tile.getValue() == 0)
+                            } else if (tile.getValue() == 0)
                                 gameLogic.gameBoard.openAllBlank(tile);
-                            if (gameLogic.gameBoard.isWin() == true) {
+
+                            if (gameLogic.gameBoard.isWin() && !isEnd) {
                                 won();
                                 isEnd = true;
                             }
@@ -222,8 +230,8 @@ public class GameActivity extends AppCompatActivity {
 
             }
         }
-        scrollView.addView(linearLayout);
-        return scrollView;
+        //scrollView.addView(linearLayout);
+        return linearLayout;
     }
 
     private void gameOver() {

@@ -3,14 +3,16 @@
     package="com.example.galtzemach.minesweeper">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value ="AIzaSyDKUU9bTtA5ZqyyZDJV98JKPndimx00smo"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDKUU9bTtA5ZqyyZDJV98JKPndimx00smo" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -23,7 +25,8 @@
         <activity android:name=".ui.HighScoreActivity" />
         <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.HelpActivity" />
-        <activity android:name=".ui.GameActivity"></activity>
+        <activity android:name=".ui.GameActivity" />
+        <activity android:name=".ui.ScoreTableMap"></activity>
     </application>
 
 </manifest>

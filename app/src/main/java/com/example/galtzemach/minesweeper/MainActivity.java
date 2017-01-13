@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.galtzemach.minesweeper.ui.HelpActivity;
-import com.example.galtzemach.minesweeper.ui.HighScoreActivity;
 import com.example.galtzemach.minesweeper.ui.LevelActivity;
+import com.example.galtzemach.minesweeper.ui.ScoreTableMap;
 import com.example.galtzemach.minesweeper.ui.SettingActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         highScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent highScore = new Intent(getApplicationContext(), HighScoreActivity.class);
+                Intent highScore = new Intent(getApplicationContext(), ScoreTableMap.class);
                 startActivity(highScore);
             }
         });

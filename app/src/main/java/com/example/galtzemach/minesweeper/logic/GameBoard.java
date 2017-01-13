@@ -108,9 +108,10 @@ public class GameBoard {
         int countNotTaken = 0, counterMines = 0;
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                if (theBoard[i][j].isTaken() == false)
+                Tile tile = theBoard[i][j];
+                if (tile.isTaken() == false)
                     countNotTaken ++;
-                if (theBoard[i][j].isFlagged() == true && theBoard[i][j].getValue() == -1)
+                if (tile.isFlagged() == true && tile.getValue() == -1)
                     counterMines ++;
             }
         }
