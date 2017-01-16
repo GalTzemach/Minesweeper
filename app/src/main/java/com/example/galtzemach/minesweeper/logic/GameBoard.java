@@ -32,6 +32,7 @@ public class GameBoard {
         this.numberOfMines = numberOfMines;
         this.theBoard = new Tile[row][col];
         createBoard();
+
     }
 
     public void addMineCol(int colNumber) {
