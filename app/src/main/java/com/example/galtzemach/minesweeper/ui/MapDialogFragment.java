@@ -13,7 +13,7 @@ import com.example.galtzemach.minesweeper.logic.RecordController;
  * Created by Guy on 08/01/2017.
  */
 
-public class RecordMapDialogFragment extends DialogFragment {
+public class MapDialogFragment extends DialogFragment {
     private Record gameRecord;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -29,9 +29,9 @@ public class RecordMapDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    public static RecordMapDialogFragment newInstance() {
+    public static MapDialogFragment newInstance() {
         Bundle args = new Bundle();
-        RecordMapDialogFragment fragment = new RecordMapDialogFragment();
+        MapDialogFragment fragment = new MapDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }

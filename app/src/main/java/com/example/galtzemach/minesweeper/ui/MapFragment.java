@@ -43,7 +43,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mMapView;
     private View mapView;
     private HashMap<Marker, Record> markerRecordHashMap;
-    private RecordMapDialogFragment recordDialog;
+    private MapDialogFragment recordDialog;
     private int level;
 
 
@@ -128,7 +128,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        this.recordDialog = RecordMapDialogFragment.newInstance();
+        this.recordDialog = MapDialogFragment.newInstance();
 
         ArrayList<Record> recordArrayList = recordController.getRecordsArray(this.level);
 

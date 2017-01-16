@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import com.example.galtzemach.minesweeper.R;
 import com.example.galtzemach.minesweeper.logic.RecordController;
 
-public class ScoreTableMapActivity extends AppCompatActivity {
+public class HighScoreTableMapActivity extends AppCompatActivity {
     public static final int MAP_FRAGMENT = 1;
     public static final int TABLE_FRAGMENT = 0;
 
@@ -20,6 +20,8 @@ public class ScoreTableMapActivity extends AppCompatActivity {
     private FragmentTransaction ft;
     private LinearLayout myMainLayout;
     private int currentFragment;
+    private Button[] buttenLevelsArr;
+    private Button[] buttenTableMapsArr;
 
 
     @Override
@@ -47,21 +49,25 @@ public class ScoreTableMapActivity extends AppCompatActivity {
         tableMapLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
         tableMapLinearLayout.setLayoutParams(mwLayoutParams);
 
-        Button tableButton = new Button(this);
+        final Button tableButton = new Button(this);
         tableButton.setText("Table");
-        Button mapButton = new Button(this);
+        final Button mapButton = new Button(this);
         mapButton.setText("Map");
+        buttenTableMapsArr = new Button[]{tableButton, mapButton};
         tableMapLinearLayout.addView(tableButton, scrWidth/2, LinearLayout.LayoutParams.WRAP_CONTENT);
         tableMapLinearLayout.addView(mapButton, scrWidth/2, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         LinearLayout levelLinearLayout = new LinearLayout(this);
         levelLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        Button easyButton = new Button(this);
+        final Button easyButton = new Button(this);
         easyButton.setText("Easy");
-        Button mediumButton = new Button(this);
+        final Button mediumButton = new Button(this);
         mediumButton.setText("Medium");
-        Button hardButton = new Button(this);
+        final Button hardButton = new Button(this);
         hardButton.setText("Hard");
+
+        buttenLevelsArr = new Button[]{easyButton, mediumButton, hardButton};
+
         levelLinearLayout.addView(easyButton, scrWidth/3, LinearLayout.LayoutParams.WRAP_CONTENT);
         levelLinearLayout.addView(mediumButton, scrWidth/3, LinearLayout.LayoutParams.WRAP_CONTENT);
         levelLinearLayout.addView(hardButton, scrWidth/3, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -78,6 +84,8 @@ public class ScoreTableMapActivity extends AppCompatActivity {
         mapFragment = MapFragment.newInstance(RecordController.BEGINNER_LEVEL);
         mapFragment.setRecordController(recordController);
 
+        //levelButtonSelectable(easyButton);
+        //tableMapButtonSelectable(tableButton);
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(myMainLayout.getId(), tableViewFragment).commit();
         currentFragment = TABLE_FRAGMENT;
@@ -85,6 +93,7 @@ public class ScoreTableMapActivity extends AppCompatActivity {
         tableButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //tableMapButtonSelectable(tableButton);
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(myMainLayout.getId(), tableViewFragment).commit();
                 currentFragment = TABLE_FRAGMENT;
@@ -94,15 +103,18 @@ public class ScoreTableMapActivity extends AppCompatActivity {
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //tableMapButtonSelectable(mapButton);
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(myMainLayout.getId(), mapFragment).commit();
                 currentFragment = MAP_FRAGMENT;
             }
         });
 
+
         easyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //levelButtonSelectable(easyButton);
                 if (currentFragment == TABLE_FRAGMENT)
                     tableViewFragment.updateTable(RecordController.BEGINNER_LEVEL);
                 else
@@ -112,6 +124,7 @@ public class ScoreTableMapActivity extends AppCompatActivity {
         mediumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //levelButtonSelectable(mediumButton);
                 if (currentFragment == TABLE_FRAGMENT)
                     tableViewFragment.updateTable(RecordController.ADVANCED_LEVEL);
                 else
@@ -121,6 +134,7 @@ public class ScoreTableMapActivity extends AppCompatActivity {
         hardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //levelButtonSelectable(hardButton);
                 if (currentFragment == TABLE_FRAGMENT)
                     tableViewFragment.updateTable(RecordController.EXPERT_LEVEL);
                 else
@@ -128,4 +142,25 @@ public class ScoreTableMapActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void tableMapButtonSelectable(Button button) {
+        for (Button b : buttenTableMapsArr){
+            if (b == button)
+                b.setTextIsSelectable(true);
+            else
+                b.setTextIsSelectable(false);
+
+        }
+    }
+
+    private void levelButtonSelectable(Button button) {
+        for (Button b : buttenLevelsArr){
+            if (b == button)
+                b.setTextIsSelectable(true);
+            else
+                b.setTextIsSelectable(false);
+
+        }
+    }
+
 }
