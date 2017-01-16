@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     final int WIDTH_BUTTON = 1000;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,15 +93,50 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        //crete start service button
+//        final Button btStartService = new Button(this);
+//        btStartService.setWidth(WIDTH_BUTTON);
+//        btStartService.setText("Start Service");
+//        btStartService.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+//        btStartService.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startService(view);
+//            }
+//        });
+
+//        //crete stop service button
+//        final Button btStopService = new Button(this);
+//        btStopService.setWidth(WIDTH_BUTTON);
+//        btStopService.setText("Stop Service");
+//        btStopService.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+//        btStopService.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                stopService(view);
+//            }
+//        });
+
+
         //add
         mainMenuLinearLayout.addView(play);
         mainMenuLinearLayout.addView(highScore);
         mainMenuLinearLayout.addView(setting);
         mainMenuLinearLayout.addView(help);
         mainMenuLinearLayout.addView(exit);
+        //mainMenuLinearLayout.addView(btStartService);
+        //mainMenuLinearLayout.addView(btStopService);
 
         mainLayout.addView(mainMenuLinearLayout);
         mainLayout.setGravity(Gravity.CENTER);
     }
+
+//    public void startService(View view) {
+//        startService(new Intent(getBaseContext(), BoundService.class));
+//    }
+//
+//    public void stopService(View view) {
+//        stopService(new Intent(getBaseContext(), BoundService.class));
+//    }
 
 }

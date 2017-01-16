@@ -56,43 +56,50 @@ public class Tile extends ImageButton {
     }
 
     public void showImage() {
-        if (isFlagged() == false) {
-            switch (getValue()) { // check tile value
-                case -1: // is mine
-                    setImageResource(R.drawable.mine_bomb_200x200);
-                    //gameOver();
-                    break;
-                case 0: // is empty
-                    setImageResource(R.drawable.open);
-                    //openAllBlank();
-                    break;
-                case 1: // all the rest near mine
-                    setImageResource(R.drawable.number1_200x200);
-                    break;
-                case 2:
-                    setImageResource(R.drawable.number2_200x200);
-                    break;
-                case 3:
-                    setImageResource(R.drawable.number3_200x200);
-                    break;
-                case 4:
-                    setImageResource(R.drawable.number4_200x200);
-                    break;
-                case 5:
-                    setImageResource(R.drawable.number5_200x200);
-                    break;
-                case 6:
-                    setImageResource(R.drawable.number6_200x200);
-                    break;
-                case 7:
-                    setImageResource(R.drawable.number7_200x200);
-                    break;
-                case 8:
-                    setImageResource(R.drawable.number8_200x200);
-                    break;
-            }
-        } else if (isFlagged() == true)
-            setImageResource(R.drawable.flag_200x200);
+//        if (isTaken == false) {
+//            setImageResource(R.drawable.close);
+//            setAdjustViewBounds(true);
+//            setScaleType(FIT_CENTER);
+//            setPadding(5,5,5,5);
+//            return;
+//        }
+            if (isFlagged() == false) {
+                switch (getValue()) { // check tile value
+                    case -1: // is mine
+                        setImageResource(R.drawable.mine_bomb_200x200);
+                        //gameOver();
+                        break;
+                    case 0: // is empty
+                        setImageResource(R.drawable.open);
+                        //openAllBlank();
+                        break;
+                    case 1: // all the rest near mine
+                        setImageResource(R.drawable.number1_200x200);
+                        break;
+                    case 2:
+                        setImageResource(R.drawable.number2_200x200);
+                        break;
+                    case 3:
+                        setImageResource(R.drawable.number3_200x200);
+                        break;
+                    case 4:
+                        setImageResource(R.drawable.number4_200x200);
+                        break;
+                    case 5:
+                        setImageResource(R.drawable.number5_200x200);
+                        break;
+                    case 6:
+                        setImageResource(R.drawable.number6_200x200);
+                        break;
+                    case 7:
+                        setImageResource(R.drawable.number7_200x200);
+                        break;
+                    case 8:
+                        setImageResource(R.drawable.number8_200x200);
+                        break;
+                }
+            } else if (isFlagged() == true)
+                setImageResource(R.drawable.flag_200x200);
 
         setAdjustViewBounds(true);
         setScaleType(FIT_CENTER);

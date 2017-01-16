@@ -27,6 +27,9 @@
         <activity android:name=".ui.HelpActivity" />
         <activity android:name=".ui.GameActivity" />
         <activity android:name=".ui.ScoreTableMap"></activity>
+
+        <service android:name=".logic.LocalService" />
+
     </application>
 
 </manifest>

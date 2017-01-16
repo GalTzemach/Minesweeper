@@ -1,6 +1,9 @@
 package com.example.galtzemach.minesweeper.logic;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.example.galtzemach.minesweeper.R;
 
 import java.util.Random;
 
@@ -18,6 +21,8 @@ public class GameBoard {
     private Tile[][] theBoard;
     private Context context;
 
+    private static final String TAG = "GameBoard";
+
     public GameBoard(Context context, int width, int High, int row, int col, int numberOfMines) {
         this.context = context;
         this.row = row;
@@ -27,6 +32,86 @@ public class GameBoard {
         this.numberOfMines = numberOfMines;
         this.theBoard = new Tile[row][col];
         createBoard();
+    }
+
+    public void addMineCol(int colNumber) {
+        //put mines on specific col
+        for (int rowMine = 0; rowMine < getRow(); rowMine++){
+            int colMine = colNumber;
+            if (theBoard[rowMine][colMine].getValue() != -1) { //check if not exist mine
+                int lottery = new Random().nextInt(2); // rand if add or not
+                if (lottery == 0) { // add mine to this tile
+                    theBoard[rowMine][colMine].setValue(-1);
+                    numberOfMines ++; /// update ui
+
+                    // add value to the tiles around the mine
+                    for (int j = -1; j <= 1 ; j++){
+                        for (int k = -1; k <= 1 ; k++){
+                            int indexRow = rowMine + j;
+                            int indexCol = colMine + k;
+                            if (indexRow >= 0 && indexRow < row && indexCol >= 0 && indexCol < col) {//check if valid index
+                                if (theBoard[indexRow][indexCol].getValue() != -1) {//check if not exist mine
+                                    theBoard[indexRow][indexCol].increaseValue();
+                                    theBoard[indexRow][indexCol].showImage();
+                                    Log.d(TAG, "theBoard[" + rowMine + "][" + colMine + "] = showImage");
+                                    ///Log.d(TAG, "Tile[" + indexRow + "][" + indexCol + "] = " + theBoard[indexRow][indexCol].getValue());
+                                    ///Log.d(TAG, "rowMine = [" + rowMine + "] colMine = [" + colMine + "] counter= [" + x++ + "]");
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            theBoard[rowMine][colMine].setTaken(false);
+            theBoard[rowMine][colMine].showImage();
+            theBoard[rowMine][colMine].setFlagged(false);
+            //if (colMine != colNumber)
+            //theBoard[rowMine][colMine].setImageResource(R.drawable.close);
+            Log.d(TAG, "theBoard[" + rowMine + "][" + colMine + "] = photo close");
+            Log.d(TAG, "theBoard[" + rowMine + "][" + colMine + "].value = " + theBoard[rowMine][colMine].getValue());
+        }
+        closeCol(colNumber);
+    }
+
+    private void closeCol(int indexCol) {
+        for (int indexRow = 0; indexRow < getRow(); indexRow++) {
+            theBoard[indexRow][indexCol].setImageResource(R.drawable.close);
+        }
+    }
+
+    public void addMineRow(int rowNumber) {
+        //put mines on specific row
+        for (int colMine = 0; colMine < getCol(); colMine++){
+            int rowMine = rowNumber;
+            if (theBoard[rowMine][colMine].getValue() != -1) { //check if not exist mine
+                int lottery = new Random().nextInt(2); // rand if add or not
+                if (lottery == 0) { // add mine to this tile
+                    theBoard[rowMine][colMine].setValue(-1);
+                    numberOfMines++; /// update ui
+
+                    // add value to the tiles around the mine
+                    for (int j = -1; j <= 1; j++) {
+                        for (int k = -1; k <= 1; k++) {
+                            int indexRow = rowMine + j;
+                            int indexCol = colMine + k;
+                            if (indexRow >= 0 && indexRow < row && indexCol >= 0 && indexCol < col) {//check if valid index
+                                if (theBoard[indexRow][indexCol].getValue() != -1) {//check if not exist mine
+                                    theBoard[indexRow][indexCol].increaseValue();
+                                    theBoard[indexRow][indexCol].showImage();
+                                    ///Log.d(TAG, "Tile[" + indexRow + "][" + indexCol + "] = " + theBoard[indexRow][indexCol].getValue());
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            theBoard[rowMine][colMine].setTaken(false);
+            theBoard[rowMine][colMine].setFlagged(false);
+            theBoard[rowMine][colMine].setImageResource(R.drawable.close);
+
+        }
     }
 
     public void createBoard() {
@@ -43,6 +128,7 @@ public class GameBoard {
             if (theBoard[rowMine][colMine].getValue() != -1) {//check if not exist mine
                 theBoard[rowMine][colMine].setValue(-1);
                 i++;
+
                 // add value to the tiles around the mine
                 for (int j = -1; j <= 1 ; j++){
                     for (int k = -1; k <= 1 ; k++){
@@ -69,6 +155,10 @@ public class GameBoard {
         return this.numberOfMines;
     }
 
+    public void setNumberOfMines(int numberOfMines) {
+        this.numberOfMines = numberOfMines;
+    }
+
     public Tile[][] getTheBoard() {
         return this.theBoard;
     }
@@ -92,17 +182,6 @@ public class GameBoard {
             }
         }
     }
-
-///
-//    public void gameOver() {
-//        Toast.makeText(context, "gameOver", LENGTH_LONG).show();
-//        //open all mines
-//        for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < col; j++) {
-//                    theBoard[i][j].showImage();
-//            }
-//        }
-//    }
 
     public boolean isWin() {
         int countNotTaken = 0, counterMines = 0;
