@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.example.galtzemach.minesweeper.ui.HelpActivity;
 import com.example.galtzemach.minesweeper.ui.LevelActivity;
-import com.example.galtzemach.minesweeper.ui.ScoreTableMap;
+import com.example.galtzemach.minesweeper.ui.HighScoreTableMapActivity;
 import com.example.galtzemach.minesweeper.ui.SettingActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         Button play = new Button(this);
         play.setWidth(WIDTH_BUTTON);
         play.setText("Play");
-        //play.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        //play.setClickable(true);
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,10 +50,11 @@ public class MainActivity extends AppCompatActivity {
         highScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent highScore = new Intent(getApplicationContext(), ScoreTableMap.class);
+                Intent highScore = new Intent(getApplicationContext(), HighScoreTableMapActivity.class);
                 startActivity(highScore);
             }
         });
+
         //crete setting button
         Button setting = new Button(this);
         setting.setWidth(WIDTH_BUTTON);
@@ -68,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(setting);
             }
         });
+
         //crete help button
         Button help = new Button(this);
         help.setWidth(WIDTH_BUTTON);

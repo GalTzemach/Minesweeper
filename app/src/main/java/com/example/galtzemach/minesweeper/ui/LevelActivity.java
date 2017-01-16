@@ -60,7 +60,7 @@ public class LevelActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent hard = new Intent(getApplicationContext(), GameActivity.class);
-                hard.putExtra("level", new int[]{5, 5, 10 , 2});//[row,col,#mines,levelNumber]
+                hard.putExtra("level", new int[]{5, 5, 10, 2});//[row,col,#mines,levelNumber]
                 startActivity(hard);
             }
         });

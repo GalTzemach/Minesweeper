@@ -2,8 +2,15 @@ package com.example.galtzemach.minesweeper.ui;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Point;
+import android.graphics.drawable.AnimationDrawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -11,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -18,9 +26,11 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -31,6 +41,8 @@ import com.example.galtzemach.minesweeper.R;
 import com.example.galtzemach.minesweeper.logic.GameBoard;
 import com.example.galtzemach.minesweeper.logic.GameLogic;
 import com.example.galtzemach.minesweeper.logic.LocalService;
+import com.example.galtzemach.minesweeper.logic.Record;
+import com.example.galtzemach.minesweeper.logic.RecordController;
 import com.example.galtzemach.minesweeper.logic.Tile;
 
 import static android.widget.ImageView.ScaleType.FIT_CENTER;
@@ -38,6 +50,7 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class GameActivity extends AppCompatActivity implements LocalService.MyServiceListener {
 
+    private RecordController recordController;
     private GameLogic gameLogic;
     private ImageButton face;
     private Intent newGameIntent;
@@ -50,6 +63,10 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
     private AlertDialog.Builder builder;
     private int levelNumber; // 0 = Easy, 1 = Medium, 2 = Hard
     private boolean isEnd = false;
+    private Handler handler;
+    private ObjectAnimator rotator;
+    private ImageView imageView, fireworks1, fireworks2, fireworks3;
+    private AnimationDrawable fireWorksAnim;
 
     private static final String TAG = "GameActivity";
     private LocalService myService;
@@ -110,6 +127,11 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
         Log.d(TAG, "onStart: " + (bindingSucceeded ? "the binding succeeded..." : "the binding failed!"));
 
 
+        imageView = (ImageView) findViewById(R.id.endImageView);
+        handler = new Handler();
+
+        recordController = new RecordController(this);
+
         newGameIntent = new Intent(getApplicationContext(), LevelActivity.class);
 
         //get level parameters & create game
@@ -125,10 +147,9 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
 
         LinearLayout upHorizontalLinearLayout = new LinearLayout(this);
         upHorizontalLinearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-        upHorizontalLinearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR); //    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+        upHorizontalLinearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         upHorizontalLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         upHorizontalLinearLayout.setPadding(0, 0, 0, 100);
-        //upHorizontalLinearLayout.setBackgroundColor(Color.GREEN);///
 
         Display display = getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
@@ -146,6 +167,7 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
 
         // create # mines text
         mineBt = new Button(this);
+
         //mineBt.setText("#Mine");
         mineBt.setText(Integer.toString(gameLogic.getFlagsLeft()));
 
@@ -161,7 +183,6 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
 
         ScrollView scrollView = new ScrollView(this);
         scrollView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        //scrollView.setBackgroundColor(Color.BLUE);///
         scrollView.addView(createBoard());
         verticalLinearLayout.addView(scrollView);//createBoard return LinearLayout
 
@@ -178,8 +199,6 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
         verticalLinearLayout.addView(z_axis);
 
         relativeLayout.addView(verticalLinearLayout);
-
-        //startTimer();///start in first press
     }
 
     public void setService(LocalService service) {
@@ -296,8 +315,6 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
 
     public LinearLayout createBoard(){
 
-        //ScrollView scrollView = new ScrollView(this);
-        //scrollView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -317,8 +334,6 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
                         if (isStart == false){
                             isStart = true;
                             startTimer();
-                            //startService(view);
-                            //startBoundService();
                         }
                         if (tile.isTaken() == false) {
                             tile.setTaken(true);
@@ -345,12 +360,10 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
 
                 tile.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public boolean onLongClick(View view) { ////
+                    public boolean onLongClick(View view) {
                         if (isStart == false){
                             isStart = true;
                             startTimer();
-                            //startService(view);
-                            //startBoundService();
                         }
                         if (tile.isTaken() == false && tile.isFlagged() == false) {
                             if (gameLogic.canFlag(tile) == true) {
@@ -364,22 +377,17 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
                             } else {
                                 Toast.makeText(getApplicationContext(), "No more flags", LENGTH_LONG).show();
                             }
-
-//                        if (tile.longClicked() == true) ;
-//                        gameLogic.setFlagsLeft(gameLogic.getFlagsLeft() - 1);
-
                         } else {
                             if (tile.isFlagged() == true) {
                                 tile.setFlagged(false);
-                                //
-                                tile.setTaken(false);//?
+                                tile.setTaken(false);
                                 tile.setImageResource(R.drawable.close);
                                 tile.setAdjustViewBounds(true);
                                 tile.setScaleType(FIT_CENTER);
                                 tile.setPadding(5,5,5,5);
                                 gameLogic.setFlagsLeft(gameLogic.getFlagsLeft() + 1);
                                 mineBt.setText(Integer.toString(gameLogic.getFlagsLeft()));
-                            }else ///remove condition?
+                            }else
                                 Toast.makeText(getApplicationContext(), "Already taken", LENGTH_LONG).show();
                         }
                         return true;
@@ -388,7 +396,6 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
 
             }
         }
-        //scrollView.addView(linearLayout);
         return linearLayout;
     }
 
@@ -408,6 +415,33 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
         });
         openAllTile();
         gameLogic.setLoss(true);
+        animationTile();
+    }
+
+
+
+    private void animationTile() {
+        Display d = getWindowManager().getDefaultDisplay();
+        final Point size = new Point();
+        d.getSize(size);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < gameLogic.gameBoard.getRow(); i++) {
+                    for (int j = 0; j < gameLogic.gameBoard.getCol(); j++) {
+                        rotator = ObjectAnimator.ofFloat(gameLogic.gameBoard.getTheBoard()[i][j], "rotation", 360);
+                        rotator.setDuration((int) (Math.random() * 50));
+                        rotator.setRepeatCount(ObjectAnimator.INFINITE);
+                        rotator.setInterpolator(new LinearInterpolator());
+                        rotator.start();
+                        ObjectAnimator oy = ObjectAnimator.ofFloat(gameLogic.gameBoard.getTheBoard()[i][j], "y", gameLogic.gameBoard.getTheBoard()[i][j].getY(), size.y);
+                        oy.setDuration((int) (Math.random() * 20000));
+                        oy.setInterpolator(new LinearInterpolator());
+                        oy.start();
+                    }
+                }
+            }
+        }, 1500);
     }
 
     private void openAllTile() {
@@ -418,6 +452,7 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
     }
 
     private void won() {
+        isEnd = true;
         Toast.makeText(this, "You WON!", LENGTH_LONG).show();
         face.setImageResource(R.drawable.imgres);
         face.setAdjustViewBounds(true);
@@ -431,7 +466,43 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
         });
         openAllTile();
         gameLogic.setWon(true);
+
         builder.show();
+        winAnimation();
+    }
+
+    private void winAnimation() {
+        fireworks1 = (ImageView) findViewById(R.id.fireworks1);
+        fireworks2 = (ImageView) findViewById(R.id.fireworks2);
+        fireworks3 = (ImageView) findViewById(R.id.fireworks3);
+        fireworks1.setBackgroundResource(R.drawable.blue_fire);
+        fireworks2.setBackgroundResource(R.drawable.red_fire);
+        fireworks3.setBackgroundResource(R.drawable.green_fire);
+        fireWorksAnim = (AnimationDrawable) fireworks1.getBackground();
+        fireWorksAnim.start();
+        fireWorksAnim = (AnimationDrawable) fireworks2.getBackground();
+        fireWorksAnim.start();
+        fireWorksAnim = (AnimationDrawable) fireworks3.getBackground();
+        fireWorksAnim.start();
+    }
+
+    private void saveRecordToDb() {
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude  = location.getLatitude();
+
+        Record record = new Record(0, secPassed, levelNumber, name, longitude, latitude);
+        Log.v("----------", "secPassed = " + secPassed + ", name= " + name);
+        recordController.addRecord(record);
     }
 
     @Override
@@ -442,19 +513,17 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
         builder = new AlertDialog.Builder(this);
         builder.setTitle("You Won!");
         builder.setMessage("Enter your name");
-        //View wonView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_game, )
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        //input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder.setView(input);
+
         // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 name = input.getText().toString();
 
-                /// if need to save
-                savePlayersScores(levelNumber);
+                saveRecordToDb();
 
             }
         });
