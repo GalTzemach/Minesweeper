@@ -14,14 +14,14 @@ import java.util.ArrayList;
  * Created by Gal Tzemach on 12/01/2017.
  */
 
-public class DBController {
+public class DbController {
     private DbHelper dbHelper;
     private SQLiteDatabase dbForWrite;
     private SQLiteDatabase dbForRead;
     private static final String TAG = "DbController";
 
 
-    public DBController(Context context) {
+    public DbController(Context context) {
         this.dbHelper = new DbHelper(context);
         this.dbForWrite     = dbHelper.getWritableDatabase();
         this.dbForRead      = dbHelper.getReadableDatabase();
@@ -31,13 +31,13 @@ public class DBController {
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(DBConfig.COLUMN_PERSON_NAME, name);
-        contentValues.put(DBConfig.COLUMN_TIME_MS, timeMs);
-        contentValues.put(DBConfig.COLUMN_LEVEL, level);
-        contentValues.put(DBConfig.COLUMN_LONG, longitude);
-        contentValues.put(DBConfig.COLUMN_LATI, latitude);
+        contentValues.put(DbConfig.COLUMN_PERSON_NAME, name);
+        contentValues.put(DbConfig.COLUMN_TIME_MS, timeMs);
+        contentValues.put(DbConfig.COLUMN_LEVEL, level);
+        contentValues.put(DbConfig.COLUMN_LONG, longitude);
+        contentValues.put(DbConfig.COLUMN_LATI, latitude);
 
-        long newRowId = dbForWrite.insert(DBConfig.TABLE_NAME, null, contentValues);
+        long newRowId = dbForWrite.insert(DbConfig.TABLE_NAME, null, contentValues);
 
         if (newRowId != -1)
             Log.v(TAG, "Insert new record");
@@ -50,23 +50,23 @@ public class DBController {
         ArrayList<Record> recordsArr = new ArrayList<>();
 
         String[] projection = {
-                DBConfig.COLUMN_ID,
-                DBConfig.COLUMN_PERSON_NAME,
-                DBConfig.COLUMN_TIME_MS,
-                DBConfig.COLUMN_LEVEL,
-                DBConfig.COLUMN_LONG,
-                DBConfig.COLUMN_LATI
+                DbConfig.COLUMN_ID,
+                DbConfig.COLUMN_PERSON_NAME,
+                DbConfig.COLUMN_TIME_MS,
+                DbConfig.COLUMN_LEVEL,
+                DbConfig.COLUMN_LONG,
+                DbConfig.COLUMN_LATI
         };
 
-        String selection = DBConfig.COLUMN_LEVEL + " = ?";
+        String selection = DbConfig.COLUMN_LEVEL + " = ?";
         String[] selectionArgs = { ((Integer)level).toString() };
 
-        String sortOrder = DBConfig.COLUMN_TIME_MS + " ASC";
+        String sortOrder = DbConfig.COLUMN_TIME_MS + " ASC";
 
-        String limit = DBConfig.LIMIT;
+        String limit = DbConfig.LIMIT;
 
         Cursor cursor = dbForRead.query(
-                DBConfig.TABLE_NAME,
+                DbConfig.TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
@@ -78,15 +78,15 @@ public class DBController {
 
         while(cursor.moveToNext()) {
             int recordId = cursor.getInt(
-                    cursor.getColumnIndexOrThrow(DBConfig.COLUMN_ID));
+                    cursor.getColumnIndexOrThrow(DbConfig.COLUMN_ID));
             String personName = cursor.getString(
-                    cursor.getColumnIndexOrThrow(DBConfig.COLUMN_PERSON_NAME));
+                    cursor.getColumnIndexOrThrow(DbConfig.COLUMN_PERSON_NAME));
             int timeMs = cursor.getInt(
-                    cursor.getColumnIndexOrThrow(DBConfig.COLUMN_TIME_MS));
+                    cursor.getColumnIndexOrThrow(DbConfig.COLUMN_TIME_MS));
             double longitude = cursor.getDouble(
-                    cursor.getColumnIndexOrThrow(DBConfig.COLUMN_LONG));
+                    cursor.getColumnIndexOrThrow(DbConfig.COLUMN_LONG));
             double latitude = cursor.getDouble(
-                    cursor.getColumnIndexOrThrow(DBConfig.COLUMN_LATI));
+                    cursor.getColumnIndexOrThrow(DbConfig.COLUMN_LATI));
 
             Record record = new Record(recordId, timeMs, level, personName, longitude, latitude);
 

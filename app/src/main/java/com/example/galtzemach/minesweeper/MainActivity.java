@@ -1,3 +1,6 @@
+//gal tzemach 203112289
+//tal tzemach 203112297
+
 package com.example.galtzemach.minesweeper;
 
 import android.content.Intent;

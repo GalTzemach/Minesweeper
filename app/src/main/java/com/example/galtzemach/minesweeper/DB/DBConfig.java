@@ -4,7 +4,7 @@ package com.example.galtzemach.minesweeper.DB;
  * Created by Gal Tzemach on 13/01/2017.
  */
 
-public class DBConfig {
+public class DbConfig {
     public static final String TABLE_NAME = "records";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_PERSON_NAME = "person_name";

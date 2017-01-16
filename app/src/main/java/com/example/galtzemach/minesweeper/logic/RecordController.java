@@ -2,7 +2,7 @@ package com.example.galtzemach.minesweeper.logic;
 
 import android.content.Context;
 
-import com.example.galtzemach.minesweeper.DB.DBController;
+import com.example.galtzemach.minesweeper.DB.DbController;
 
 import java.util.ArrayList;
 
@@ -16,14 +16,14 @@ public class RecordController {
     public static final int EXPERT_LEVEL 		= 2;
     public static final String[] LEVEL_LABELS   = {"Easy","Medium","Hard"};
 
-    private DBController dbController;
+    private DbController dbController;
     private ArrayList<Record> beginnerRecordArray;
     private ArrayList<Record> advencedRecordArray;
     private ArrayList<Record> expertRecordArray;
 
 
     public RecordController(Context context){
-        dbController = new DBController(context);
+        dbController = new DbController(context);
         beginnerRecordArray = new ArrayList<>();
         advencedRecordArray = new ArrayList<>();
         expertRecordArray   = new ArrayList<>();
