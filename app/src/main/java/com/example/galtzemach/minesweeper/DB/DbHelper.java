@@ -30,14 +30,14 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + DbConfig.TABLE_NAME + "(" +
-                    DbConfig.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    DbConfig.COLUMN_PERSON_NAME + " TEXT," +
-                    DbConfig.COLUMN_TIME_MS + " INTEGER," +
-                    DbConfig.COLUMN_LEVEL + " INTEGER," +
-                    DbConfig.COLUMN_LONG + " DOUBLE," +
-                    DbConfig.COLUMN_LATI +" DOUBLE)";
+            "CREATE TABLE " + DBConfig.TABLE_NAME + "(" +
+                    DBConfig.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    DBConfig.COLUMN_PERSON_NAME + " TEXT," +
+                    DBConfig.COLUMN_TIME_MS + " INTEGER," +
+                    DBConfig.COLUMN_LEVEL + " INTEGER," +
+                    DBConfig.COLUMN_LONG + " DOUBLE," +
+                    DBConfig.COLUMN_LATI +" DOUBLE)";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + DbConfig.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + DBConfig.TABLE_NAME;
 }
