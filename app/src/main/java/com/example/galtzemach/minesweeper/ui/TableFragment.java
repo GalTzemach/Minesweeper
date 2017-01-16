@@ -133,7 +133,7 @@ public class TableFragment extends Fragment {
         nameField.setTextColor(Color.parseColor("#000000"));
         nameField.setText(record.getName());
         nameField.setTextSize(28);
-        nameField.setWidth(600);
+        nameField.setWidth(500);
 
         TextView timeField = new TextView(this.parent);
         timeField.setTextColor(Color.parseColor("#000000"));
