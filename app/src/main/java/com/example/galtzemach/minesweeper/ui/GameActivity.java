@@ -1,18 +1,16 @@
 package com.example.galtzemach.minesweeper.ui;
 
-import android.content.ComponentName;
-import android.content.Context;
 import android.animation.ObjectAnimator;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.location.LocationManager;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -121,10 +119,9 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
         setContentView(R.layout.activity_game);
 
         // Bind to LocalService
-        /// onCreate ???
         Intent intent = new Intent(this, LocalService.class);
         boolean bindingSucceeded = bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-        Log.d(TAG, "onStart: " + (bindingSucceeded ? "the binding succeeded..." : "the binding failed!"));
+        Log.d(TAG, "onCreate: " + (bindingSucceeded ? "the binding succeeded..." : "the binding failed!"));
 
 
         imageView = (ImageView) findViewById(R.id.endImageView);
@@ -142,7 +139,7 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
 
         LinearLayout verticalLinearLayout = new LinearLayout(this);
         verticalLinearLayout.setOrientation(LinearLayout.VERTICAL);
-        verticalLinearLayout.setGravity(View.SCROLL_INDICATOR_TOP);///?
+        verticalLinearLayout.setGravity(View.SCROLL_INDICATOR_TOP);
         verticalLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
         LinearLayout upHorizontalLinearLayout = new LinearLayout(this);
@@ -220,7 +217,7 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
 
             rightToLeft = gameLogic.gameBoard.getCol() -1;
             bottomToTop = gameLogic.gameBoard.getRow() - 1;
-            sensorFirstUsed = false; ///
+            sensorFirstUsed = false;
 
             timer.removeCallbacks(updateTimeElapsed);
             timer.removeCallbacks(checkAxis);
@@ -259,7 +256,6 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
     };
 
     private void addMines(final boolean isLeft, final boolean isRight, final boolean isTop, final boolean isBottom) {
-        /// run on ui thread ??
         runOnUiThread(new Runnable() {
 
             @Override
@@ -294,7 +290,7 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
                 }
             }
         });
-        /// openAllTile();
+        mineBt.setText(Integer.toString(gameLogic.gameBoard.getNumberOfMines()));
     }
 
     private Runnable updateTimeElapsed = new Runnable() {
@@ -340,7 +336,7 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
                             tile.showImage();
                             if (tile.getValue() == -1) { //loss
                                 gameOver();
-                                //stopService(view);
+                                //stop service ?
                                 isEnd = true;
                                 myService.stopListening();
                             } else if (tile.getValue() == 0)
@@ -368,7 +364,6 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
                         if (tile.isTaken() == false && tile.isFlagged() == false) {
                             if (gameLogic.canFlag(tile) == true) {
                                 tile.setFlagged(true);
-                                //tile.setTaken(true);
                                 tile.showImage();
                                 gameLogic.setFlagsLeft(gameLogic.getFlagsLeft() - 1);
                                 mineBt.setText(Integer.toString(gameLogic.getFlagsLeft()));
@@ -402,7 +397,6 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
     private void gameOver() {
         if (gameLogic.isWon() == false)
             Toast.makeText(this, "gameOver", LENGTH_LONG).show();
-            ///stopService();
         face.setImageResource(R.drawable.cry_face_200x200);
         face.setAdjustViewBounds(true);
         face.setScaleType(FIT_CENTER);
@@ -533,7 +527,6 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
                 dialog.cancel();
             }
         });
-        //builder.show();
     }
 
     @Override
@@ -543,20 +536,6 @@ public class GameActivity extends AppCompatActivity implements LocalService.MySe
 //        if (myService != null){
 //            myService.stopListening();
 //        }
-    }
-
-    private void savePlayersScores(int i) {
-
-        String nameToSave = name;
-        int timeToSave = secPassed;
-
-        SharedPreferences scoresPreferences = getSharedPreferences("scoresss", MODE_PRIVATE);
-        SharedPreferences.Editor scoresEditor = scoresPreferences.edit();
-
-            scoresEditor.putString("player" + i + "name", nameToSave);
-            scoresEditor.putInt("player" + i + "score", timeToSave);
-
-        scoresEditor.apply();
     }
 
     @Override

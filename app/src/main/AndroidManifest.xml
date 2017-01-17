@@ -32,7 +32,6 @@
         <activity android:name=".ui.HighScoreTableMapActivity"></activity>
 
         <service android:name=".logic.LocalService" />
-
     </application>
 
 </manifest>

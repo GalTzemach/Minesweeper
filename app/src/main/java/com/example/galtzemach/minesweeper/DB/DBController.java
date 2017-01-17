@@ -20,7 +20,6 @@ public class DbController {
     private SQLiteDatabase dbForRead;
     private static final String TAG = "DbController";
 
-
     public DbController(Context context) {
         this.dbHelper = new DbHelper(context);
         this.dbForWrite     = dbHelper.getWritableDatabase();

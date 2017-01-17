@@ -18,11 +18,9 @@ public class Tile extends ImageButton {
     private boolean isFlagged = false;
     private boolean isTaken = false;
     private boolean isX = false;
-    //private Context context;
 
     public Tile(Context context, int positionRow, int positionCol, int value, boolean isFlagged, boolean isTaken) {
         super(context);
-        //this.context = context;
         this.positionRow = positionRow;
         this.positionCol = positionCol;
         this.value = value;
@@ -56,13 +54,7 @@ public class Tile extends ImageButton {
     }
 
     public void showImage() {
-//        if (isTaken == false) {
-//            setImageResource(R.drawable.close);
-//            setAdjustViewBounds(true);
-//            setScaleType(FIT_CENTER);
-//            setPadding(5,5,5,5);
-//            return;
-//        }
+
             if (isFlagged() == false) {
                 switch (getValue()) { // check tile value
                     case -1: // is mine
@@ -121,24 +113,5 @@ public class Tile extends ImageButton {
     public boolean isTaken() {
         return this.isTaken;
     }
-
-//    public boolean isX() {
-//        return this.isX;
-//    }
-
-//    public boolean longClicked(){
-//        if (isTaken == false) {
-//            isFlagged = true;
-//            isTaken = true;
-////            setImageResource(R.drawable.flag_200x200);
-////            setAdjustViewBounds(true);
-////            setScaleType(FIT_CENTER);
-////            setPadding(5,5,5,5);
-//            showImage();
-//            return true;
-//        } else if (isFlagged == true)
-//            isFlagged = false;
-//        return false;
-//    }
 
 }

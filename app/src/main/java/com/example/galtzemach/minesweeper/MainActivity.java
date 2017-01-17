@@ -1,5 +1,5 @@
-//gal tzemach 203112289
-//tal tzemach 203112297
+//Gal Tzemach 203112289
+//Tal Tzemach 203112297
 
 package com.example.galtzemach.minesweeper;
 
