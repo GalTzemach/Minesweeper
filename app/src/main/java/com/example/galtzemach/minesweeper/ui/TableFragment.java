@@ -83,6 +83,7 @@ public class TableFragment extends Fragment {
     }
 
     private void printTable(TableLayout table, int level) {
+        int scrWidth  = getActivity().getWindowManager().getDefaultDisplay().getWidth();
         ArrayList<Record> recordsArray = recordController.getRecordsArray(level);
 
         TableRow tableRow = new TableRow(this.parent);
@@ -93,7 +94,7 @@ public class TableFragment extends Fragment {
         numTV.setTextColor(Color.parseColor("#000000"));
         numTV.setText(num);
         numTV.setTextSize(28);
-        numTV.setWidth(200);
+        numTV.setWidth(scrWidth/5);
 
         TextView nameTV = new TextView(this.parent);
         SpannableString name = new SpannableString("Name");
@@ -101,7 +102,7 @@ public class TableFragment extends Fragment {
         nameTV.setTextColor(Color.parseColor("#000000"));
         nameTV.setText(name);
         nameTV.setTextSize(28);
-        nameTV.setWidth(800);
+        nameTV.setWidth(scrWidth/2);
 
         TextView timeTV = new TextView(this.parent);
         SpannableString time = new SpannableString("Time");
@@ -127,13 +128,13 @@ public class TableFragment extends Fragment {
         rankIndex.setTextColor(Color.parseColor("#000000"));
         rankIndex.setText(((Integer)rank).toString()+"");
         rankIndex.setTextSize(28);
-        rankIndex.setWidth(150);
+        //rankIndex.setWidth(200);
 
         TextView nameField = new TextView(this.parent);
         nameField.setTextColor(Color.parseColor("#000000"));
         nameField.setText(record.getName());
         nameField.setTextSize(28);
-        nameField.setWidth(500);
+        //nameField.setWidth(500);
 
         TextView timeField = new TextView(this.parent);
         timeField.setTextColor(Color.parseColor("#000000"));
@@ -162,6 +163,8 @@ public class TableFragment extends Fragment {
     public void setRecordController(RecordController recordController){
         this.recordController = recordController;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

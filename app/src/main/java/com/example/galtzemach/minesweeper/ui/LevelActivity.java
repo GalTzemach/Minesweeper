@@ -14,12 +14,17 @@ import static android.view.Gravity.CENTER;
 
 public class LevelActivity extends AppCompatActivity {
 
-    final int WIDTH_BUTTON = 1000;
+    private int widthButton ;
+    private int heightButton ;
+    final int SIZE_TEXT = 22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level);
+
+        widthButton = (int) (getWindowManager().getDefaultDisplay().getWidth()*0.8);
+        heightButton  = getWindowManager().getDefaultDisplay().getHeight() / 10;
 
         LinearLayout levelLayout = new LinearLayout(this);
         levelLayout.setGravity(CENTER);///
@@ -29,12 +34,14 @@ public class LevelActivity extends AppCompatActivity {
         //create easy button
         Button easyButton = new Button(this);
         easyButton.setText("Easy");
-        easyButton.setWidth(WIDTH_BUTTON);
+        easyButton.setTextSize(SIZE_TEXT);
+        easyButton.setWidth(widthButton);
+        easyButton.setHeight(heightButton);
         easyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent easy = new Intent(getApplicationContext(), GameActivity.class);
-                easy.putExtra("level", new int[]{10, 10, 5, 0});//[row,col,#mines,levelNumber]
+                easy.putExtra("level", new int[]{10, 10, 1, 0});//[row,col,#mines,levelNumber]
                 startActivity(easy);
             }
         });
@@ -42,12 +49,14 @@ public class LevelActivity extends AppCompatActivity {
         //create medium button
         Button mediumButton = new Button(this);
         mediumButton.setText("Medium");
-        mediumButton.setWidth(WIDTH_BUTTON);
+        mediumButton.setTextSize(SIZE_TEXT);
+        mediumButton.setWidth(widthButton);
+        mediumButton.setHeight(heightButton);
         mediumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent medium = new Intent(getApplicationContext(), GameActivity.class);
-                medium.putExtra("level", new int[]{10, 10, 10, 1});//[row,col,#mines,levelNumber]
+                medium.putExtra("level", new int[]{10, 10, 1, 1});//[row,col,#mines,levelNumber]
                 startActivity(medium);
             }
         });
@@ -55,12 +64,14 @@ public class LevelActivity extends AppCompatActivity {
         //create Hard button
         Button hardButton = new Button(this);
         hardButton.setText("Hard");
-        hardButton.setWidth(WIDTH_BUTTON);
+        hardButton.setTextSize(SIZE_TEXT);
+        hardButton.setWidth(widthButton);
+        hardButton.setHeight(heightButton);
         hardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent hard = new Intent(getApplicationContext(), GameActivity.class);
-                hard.putExtra("level", new int[]{5, 5, 10, 2});//[row,col,#mines,levelNumber]
+                hard.putExtra("level", new int[]{5, 5, 1, 2});//[row,col,#mines,levelNumber]
                 startActivity(hard);
             }
         });
