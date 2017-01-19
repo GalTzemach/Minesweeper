@@ -13,18 +13,23 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.galtzemach.minesweeper.ui.HelpActivity;
-import com.example.galtzemach.minesweeper.ui.LevelActivity;
 import com.example.galtzemach.minesweeper.ui.HighScoreTableMapActivity;
+import com.example.galtzemach.minesweeper.ui.LevelActivity;
 import com.example.galtzemach.minesweeper.ui.SettingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    final int WIDTH_BUTTON = 1000;
+    private int widthButton ;
+    private int heightButton ;
+    final int SIZE_TEXT = 22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        widthButton = (int) (getWindowManager().getDefaultDisplay().getWidth()*0.8);
+        heightButton  = getWindowManager().getDefaultDisplay().getHeight() / 10;
 
         RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.activity_main);
         LinearLayout mainMenuLinearLayout = new LinearLayout(this);
@@ -34,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
         //create Play button
         Button play = new Button(this);
-        play.setWidth(WIDTH_BUTTON);
+        play.setWidth(widthButton);
         play.setText("Play");
-
+        play.setTextSize(SIZE_TEXT);
+        play.setHeight((int) (heightButton * 1.5));
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,8 +53,10 @@ public class MainActivity extends AppCompatActivity {
 
         //crete highScore button
         Button highScore = new Button(this);
-        highScore.setWidth(WIDTH_BUTTON);
+        highScore.setWidth(widthButton);
         highScore.setText("High score");
+        highScore.setTextSize(SIZE_TEXT);
+        highScore.setHeight(heightButton);
         highScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,9 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
         //crete setting button
         Button setting = new Button(this);
-        setting.setWidth(WIDTH_BUTTON);
+        setting.setWidth(widthButton);
         setting.setText("Setting");
+        setting.setTextSize(SIZE_TEXT);
         setting.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        setting.setHeight(heightButton);
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,8 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
         //crete help button
         Button help = new Button(this);
-        help.setWidth(WIDTH_BUTTON);
+        help.setWidth(widthButton);
         help.setText("Help");
+        help.setTextSize(SIZE_TEXT);
+        help.setHeight(heightButton);
         help.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         help.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,9 +97,11 @@ public class MainActivity extends AppCompatActivity {
 
         //crete exit button
         Button exit = new Button(this);
-        exit.setWidth(WIDTH_BUTTON);
+        exit.setWidth(widthButton);
         exit.setText("Exit");
+        exit.setTextSize(SIZE_TEXT);
         exit.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        exit.setHeight(heightButton);
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

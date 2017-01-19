@@ -13,6 +13,7 @@ import com.example.galtzemach.minesweeper.logic.RecordController;
 public class HighScoreTableMapActivity extends AppCompatActivity {
     public static final int MAP_FRAGMENT = 1;
     public static final int TABLE_FRAGMENT = 0;
+    final int SIZE_TEXT = 20;
 
     private RecordController recordController;
     private TableFragment tableViewFragment;
@@ -29,10 +30,10 @@ public class HighScoreTableMapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_table_map);
 
+
         myMainLayout = new LinearLayout(this);
         myMainLayout.setOrientation(LinearLayout.VERTICAL);
         myMainLayout.setId(R.id.recordActivityLL);
-
         addContentView(myMainLayout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT));
 
         recordController = new RecordController(this);
@@ -51,8 +52,10 @@ public class HighScoreTableMapActivity extends AppCompatActivity {
 
         final Button tableButton = new Button(this);
         tableButton.setText("Table");
+        tableButton.setTextSize(SIZE_TEXT);
         final Button mapButton = new Button(this);
         mapButton.setText("Map");
+        mapButton.setTextSize(SIZE_TEXT);
         buttenTableMapsArr = new Button[]{tableButton, mapButton};
         tableMapLinearLayout.addView(tableButton, scrWidth/2, LinearLayout.LayoutParams.WRAP_CONTENT);
         tableMapLinearLayout.addView(mapButton, scrWidth/2, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -61,10 +64,13 @@ public class HighScoreTableMapActivity extends AppCompatActivity {
         levelLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
         final Button easyButton = new Button(this);
         easyButton.setText("Easy");
+        easyButton.setTextSize(SIZE_TEXT);
         final Button mediumButton = new Button(this);
         mediumButton.setText("Medium");
+        mediumButton.setTextSize(SIZE_TEXT);
         final Button hardButton = new Button(this);
         hardButton.setText("Hard");
+        hardButton.setTextSize(SIZE_TEXT);
 
         buttenLevelsArr = new Button[]{easyButton, mediumButton, hardButton};
 
