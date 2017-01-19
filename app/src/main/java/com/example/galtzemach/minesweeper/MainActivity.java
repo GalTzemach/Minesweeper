@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     final int WIDTH_BUTTON = 1000;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
