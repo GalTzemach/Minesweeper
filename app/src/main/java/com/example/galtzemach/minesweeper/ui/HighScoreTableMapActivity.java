@@ -30,6 +30,7 @@ public class HighScoreTableMapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_table_map);
 
+
         myMainLayout = new LinearLayout(this);
         myMainLayout.setOrientation(LinearLayout.VERTICAL);
         myMainLayout.setId(R.id.recordActivityLL);

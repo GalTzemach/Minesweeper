@@ -15,13 +15,14 @@ import android.view.ViewGroup;
 import com.example.galtzemach.minesweeper.R;
 import com.example.galtzemach.minesweeper.logic.Record;
 import com.example.galtzemach.minesweeper.logic.RecordController;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -39,7 +40,7 @@ import java.util.HashMap;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     public static final String LEVEL_ARG = "level";
     private RecordController recordController;
-    private GoogleMap gMap;
+    private GoogleMap googleMap;
     private MapView mMapView;
     private View mapView;
     private HashMap<Marker, Record> markerRecordHashMap;
@@ -111,11 +112,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
-        this.gMap = googleMap;
-        this.gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        this.gMap.clear();
+        this.googleMap = googleMap;
+        this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        this.googleMap.clear();
 
-        this.gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        this.googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Record record = markerRecordHashMap.get(marker);
@@ -132,32 +133,39 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         ArrayList<Record> recordArrayList = recordController.getRecordsArray(this.level);
 
-        CameraPosition cameraPosition = null;
+        //CameraPosition cameraPosition = null;
 
         if(recordArrayList != null && recordArrayList.size() > 0) {
             for (Record record : recordArrayList) {
                 double longitude = record.getLongitude();
                 double latitude = record.getLatitude();
                 LatLng position = new LatLng(latitude, longitude);
-                cameraPosition = CameraPosition.builder().target(position).zoom(15).build();
-                Marker marker = this.gMap.addMarker(new MarkerOptions().position(position).title(record.getName()));
+                //cameraPosition = CameraPosition.builder().target(position).zoom(15).build();
+                Marker marker = this.googleMap.addMarker(new MarkerOptions().position(position).title(record.getName()));
                 markerRecordHashMap.put(marker, record);
             }
 
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (Marker marker : markerRecordHashMap.keySet()) {
+                builder.include(marker.getPosition());
+            }
+            LatLngBounds bounds = builder.build();
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, 500);
+
             if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
-                gMap.setMyLocationEnabled(true);
+                this.googleMap.setMyLocationEnabled(true);
             } else {
                 // Show rationale and request permission.
             }
 
-            this.gMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            this.googleMap.moveCamera(cameraUpdate);
         }
     }
 
     public void updateMap(int level) {
         this.setLevel(level);
-        this.onMapReady(this.gMap);
+        this.onMapReady(this.googleMap);
     }
 
     /**
